@@ -19,7 +19,7 @@ const Navbar = () => {
                         </div>
                         <div className="col-xl-7 col-lg-8">
       <nav className="header__menu">
-        {/* Menu Items */}
+      
         <ul>
           <li className="active">
             <a href="/">Home</a>
@@ -77,7 +77,7 @@ const Navbar = () => {
                             <div className="header__right">
                                 <div className="header__right__auth">
                                     <a href="/pages/LoginSignup">Login</a>
-                                    {/* <a href="#">Register</a> */}
+                                
                                 </div>
                                 <ul className="header__right__widget">
                                     <li>
