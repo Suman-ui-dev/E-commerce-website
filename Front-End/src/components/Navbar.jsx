@@ -1,111 +1,138 @@
-import React from 'react'
-import "../css/style.css";
-import logo from "../assets/img/logo.png";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; 
-import { faSearch, faTimes } from '@fortawesome/free-solid-svg-icons'; // Import icons
+import { useState, useEffect, useRef } from "react";
+
+import '../css/style.css'; // Import the CSS file
+import logo from '../assets/img/logo.png';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCartShopping, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
 const Navbar = () => {
+  const [activeMenu, setActiveMenu] = useState(null);
+  const menuRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setActiveMenu(null);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+  const categories = [
+    {
+      title: "Clothing",
+      subcategories: [
+        "Women Western & Maternity Wear",
+        "Topwear",
+        "Dresses",
+        "Jeans",
+        "Shorts",
+        "Skirts",
+        "Jeggings & Tights",
+        "Trousers & Capris",
+      ],
+    },
+    {
+      title: "Ethnic Wear",
+      subcategories: [
+        "Sarees",
+        "Kurtas & Kurtis",
+        "Dress Material",
+        "Lehenga Choli",
+        "Blouse",
+        "Kurta Sets & Salwar Suits",
+        "Gowns",
+        "Duppattas",
+      ],
+    },
+    {
+      title: "Footwear",
+      subcategories: ["Sandals", "Flats", "Heels", "Wedges", "Sports Shoes", "Casual Shoes", "Boots"],
+    },
+    {
+      title: "Beauty & Grooming",
+      subcategories: ["Make Up", "Skin Care", "Hair Care", "Bath & Spa", "Deodorants & Perfumes"],
+    },
+    {
+      title: "Jewellery",
+      subcategories: ["Artificial Jewellery", "Silver Jewellery", "Precious Jewellery"],
+    },
+    {
+      title: "Featured",
+      subcategories: ["Forever 21", "Accessorize", "W", "Pantaloons", "Chemistry", "Lakme", "Nivea", "Catwalk", "Titan-Raga"],
+    },
+  ];
   return (
-    <>
-   <header className="header">
-                <div className="container-fluid">
-                    <div className="row">
-                        <div className="col-xl-2 col-lg-1">
-                            <div className="header__logo">
-                                <a href="./index.html">
-                                    <img src={logo} alt="logo" />
-                                </a>
-                            </div>
-                        </div>
-                        <div className="col-xl-7 col-lg-8">
-      <nav className="header__menu">
-      
-        <ul>
-          <li className="active">
-            <a href="/">Home</a>
-          </li>
-          <li>
-            <a href="#">Women’s</a>
-          </li>
-          <li>
-            <a href="#">Men’s</a>
-          </li>
-          <li>
-            <a href="/pages/Shop">Shop</a>
-          </li>
-          <li>
-            <a href="#">Pages</a>
-            <ul className="dropdown">
-              <li>
-                <a href="/pages/ProductCategory">Product Details</a>
-              </li>
-              <li>
-                <a href="/pages/ShopCart">Shop Cart</a>
-              </li>
-              <li>
-                <a href="/pages/CheckOut">Checkout</a>
-              </li>
-            </ul>
-          </li>
-          <li>
-            <a href="./blog.html">Blog</a>
-          </li>
-          <li>
-            <a href="/pages/Contact">Contact</a>
-          </li>
-        </ul>
-
-        {/* Search Bar */}
-        <div className="search-bar">
-          <div className="search-container">
-            <FontAwesomeIcon icon={faSearch} className="search-icon" />
-            <input
-              type="text"
-              placeholder="Search..."
-              className="search-input"
-            />
-            <FontAwesomeIcon
-              icon={faTimes}
-              className="clear-icon"
-              onClick={() => document.querySelector('.search-input').value = ''} // Clear input on click
-            />
-          </div>
+    <div>
+      {/* Main Navbar */}
+      <nav className="navbar">
+        {/* Logo on the left */}
+        <div className="navbar-brand">
+          <img src={logo} alt="" />
+         
         </div>
+
+        {/* Navigation items in the middle */}
+       
+
+        {/* Search bar and submit button on the right */}
+        <div className="search-bar">
+            
+          <input type="text" placeholder="Search for products, brands and more" />
+          <div className="remove-icon text-black relative right-7">    <FontAwesomeIcon icon={'remove'}/></div>
+      
+        </div>
+        <ul className="navbar-nav">
+         
+          <li className='font-semibold'><a href="#"> <FontAwesomeIcon icon={'lock'}/> Login / Signup</a></li>
+          <li className='text-black font-semibold'><a href="#">Cart</a> <FontAwesomeIcon icon={faCartShopping}/> </li> 
+          
+          <button className="click-btn w-40 px-4 py-2 shadow-md  transition duration-300">
+  Know More
+</button>
+
+      
+       
+        </ul>
       </nav>
+
+      {/* Category Navbar */}
+      <nav className="sub-nav relative shadow-md">
+      {/* Navigation Menu */}
+      <ul className="flex justify-center space-x-6 text-gray-800 font-medium">
+        {["Electronics", "TVs & Appliances", "Men", "Women", "Baby & Kids", "Home & Furniture"].map((item) => (
+          <li key={item} className="relative">
+            <button
+              className=" hover:text-white-500"
+              onClick={() => setActiveMenu(activeMenu === item ? null : item)}
+            >
+              {item} <span className="ml-1"><FontAwesomeIcon icon={faChevronDown}/></span>
+            </button>
+          </li>
+        ))}
+      </ul>
+
+      {/* Dropdown Menu - Positioned Absolutely to Navbar */}
+      {activeMenu && (
+        <div
+          ref={menuRef}
+          className="absolute left-40 top-full mt-2 w-[1000px] bg-white shadow-lg p-6 grid grid-cols-5 gap-6 border rounded-lg animate-fade-in z-50"
+        >
+          {categories.map((category, index) => (
+            <div key={index}>
+              <h3 className="font-semibold text-gray-700 mb-2">{category.title}</h3>
+              <ul className="space-y-2 text-gray-600">
+                {category.subcategories.map((sub, i) => (
+                  <li key={i} className="hover:text-blue-500 cursor-pointer">{sub}</li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      )}
+    </nav>
     </div>
-                        <div className="col-lg-3">
-                            <div className="header__right">
-                                <div className="header__right__auth">
-                                    <a href="/pages/LoginSignup">Login</a>
-                                
-                                </div>
-                                <ul className="header__right__widget">
-                                    <li>
-                                        <FontAwesomeIcon icon={"cart-shopping"}/>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <FontAwesomeIcon icon={"heart"} />     <div className="tip">2</div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <span className="icon_bag_alt"></span>
-                                            <div className="tip-2">2</div>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="canvas__open">
-                        <FontAwesomeIcon icon={"bars"}/>
-                    </div>
-                </div>
-            </header>
+  );
+};
 
-    </>
-  )
-}
-
-export default Navbar
+export default Navbar;

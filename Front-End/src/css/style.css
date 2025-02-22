@@ -1,42 +1,19 @@
-/******************************************************************
-  Template Name: Ashion
-  Description: Ashion ecommerce template
-  Author: Colorib
-  Author URI: https://colorlib.com/
-  Version: 1.0
-  Created: Colorib
-******************************************************************/
 
-/*------------------------------------------------------------------
-[Table of contents]
+@import url('https://fonts.googleapis.com/css2?family=Bree+Serif&family=Pacifico&family=Permanent+Marker&family=Signika:wght@300..700&display=swap');
 
-1.  Template default CSS
-	1.1	Variables
-	1.2	Mixins
-	1.3	Flexbox
-	1.4	Reset
-2.  Helper Css
-3.  Header Section
-4.  Categories Section
-5.  Product Section
-6.  Banner Section
-7.  Countdown Section
-8.  Instagram
-9.  Contact
-10.  Footer Style
--------------------------------------------------------------------*/
 
-/*----------------------------------------*/
-
-/* Template default CSS
-/*----------------------------------------*/
-
-html,
-body {
-	height: 100%;
-	font-family: "Roboto", sans-serif;
-	-webkit-font-smoothing: antialiased;
+body{
+	background-color: #F4F6FF;
 }
+	.bree-serif-regular {
+		font-family: "Bree Serif", serif;
+		font-weight: 400;
+		font-style: normal;
+	  }
+	button{
+		font-family: "Bree Serif", serif;
+		font-weight: 400;
+	}  
 
 h1,
 h2,
@@ -47,9 +24,37 @@ h6 {
 	margin: 0;
 	color: #111111;
 	font-weight: 400;
-	font-family: "Roboto", sans-serif;
+	font-family: "Bree Serif", serif;
 }
-
+.click-btn{
+	background-color: #10375C;
+	color: white;
+	font-weight: 600;
+	border-radius: 5px;
+	
+	
+}
+.click-btn:hover{
+	background-color: #F4F6FF;
+	color: black;
+}
+.click-btn-login{
+	background-color: #10375C;
+	color: white;
+	font-weight: 600;
+	border-radius: 5px;
+	width: 100%;
+	padding: 10px;
+}
+.click-btn-login:hover{
+	background-color: #F4F6FF;
+	color: black;
+}
+.dropdown{
+	display: block;
+    width: 500px;
+    padding: 20px;
+}
 h1 {
 	font-size: 70px;
 }
@@ -59,7 +64,7 @@ h2 {
 }
 
 h3 {
-	font-size: 30px;
+	font-size: 17px;
 }
 
 h4 {
@@ -76,7 +81,7 @@ h6 {
 
 p {
 	font-size: 14px;
-	font-family: "Roboto", sans-serif;
+	font-family: "Bree Serif", serif;
 	color: #666666;
 	font-weight: 400;
 	line-height: 24px;
@@ -238,68 +243,78 @@ ol {
 
 /* Preloder */
 
-#preloder {
-	position: fixed;
-	width: 100%;
-	height: 100%;
-	top: 0;
-	left: 0;
-	z-index: 999999;
-	background: #ffffff;
-}
 
-.loader {
-	width: 40px;
-	height: 40px;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	margin-top: -13px;
-	margin-left: -13px;
-	border-radius: 60px;
-	animation: loader 0.8s linear infinite;
-	-webkit-animation: loader 0.8s linear infinite;
-}
-
-@keyframes loader {
-	0% {
-		-webkit-transform: rotate(0deg);
-		transform: rotate(0deg);
-		border: 4px solid #f44336;
-		border-left-color: transparent;
-	}
-	50% {
-		-webkit-transform: rotate(180deg);
-		transform: rotate(180deg);
-		border: 4px solid #673ab7;
-		border-left-color: transparent;
-	}
-	100% {
-		-webkit-transform: rotate(360deg);
-		transform: rotate(360deg);
-		border: 4px solid #f44336;
-		border-left-color: transparent;
-	}
-}
-
-@-webkit-keyframes loader {
-	0% {
-		-webkit-transform: rotate(0deg);
-		border: 4px solid #f44336;
-		border-left-color: transparent;
-	}
-	50% {
-		-webkit-transform: rotate(180deg);
-		border: 4px solid #673ab7;
-		border-left-color: transparent;
-	}
-	100% {
-		-webkit-transform: rotate(360deg);
-		border: 4px solid #f44336;
-		border-left-color: transparent;
-	}
-}
-
+  #preloader {
+	  position: fixed;
+	  top: 0;
+	  left: 0;
+	  width: 100%;
+	  height: 100%;
+  }
+  #loader {
+	  display: block;
+	  position: relative;
+	  left: 50%;
+	  top: 50%;
+	  width: 150px;
+	  height: 150px;
+	  margin: -75px 0 0 -75px;
+	  border-radius: 50%;
+	  border: 3px solid transparent;
+	  border-top-color: #9370DB;
+	  -webkit-animation: spin 2s linear infinite;
+	  animation: spin 2s linear infinite;
+  }
+  #loader:before {
+	  content: "";
+	  position: absolute;
+	  top: 5px;
+	  left: 5px;
+	  right: 5px;
+	  bottom: 5px;
+	  border-radius: 50%;
+	  border: 3px solid transparent;
+	  border-top-color: #BA55D3;
+	  -webkit-animation: spin 3s linear infinite;
+	  animation: spin 3s linear infinite;
+  }
+  #loader:after {
+	  content: "";
+	  position: absolute;
+	  top: 15px;
+	  left: 15px;
+	  right: 15px;
+	  bottom: 15px;
+	  border-radius: 50%;
+	  border: 3px solid transparent;
+	  border-top-color: #FF00FF;
+	  -webkit-animation: spin 1.5s linear infinite;
+	  animation: spin 1.5s linear infinite;
+  }
+  @-webkit-keyframes spin {
+	  0%   {
+		  -webkit-transform: rotate(0deg);
+		  -ms-transform: rotate(0deg);
+		  transform: rotate(0deg);
+	  }
+	  100% {
+		  -webkit-transform: rotate(360deg);
+		  -ms-transform: rotate(360deg);
+		  transform: rotate(360deg);
+	  }
+  }
+  @keyframes spin {
+	  0%   {
+		  -webkit-transform: rotate(0deg);
+		  -ms-transform: rotate(0deg);
+		  transform: rotate(0deg);
+	  }
+	  100% {
+		  -webkit-transform: rotate(360deg);
+		  -ms-transform: rotate(360deg);
+		  transform: rotate(360deg);
+	  }
+  }
 .spacial-controls {
 	position: fixed;
 	width: 111px;
@@ -591,7 +606,7 @@ ol {
 .banner__text h1 {
 	font-size: 80px;
 	color: #111111;
-	   font-family: "Roboto", sans-serif;
+font-family: "Bree Serif", serif;
 	margin-bottom: 15px;
 }
 
@@ -774,7 +789,7 @@ ol {
 .discount__text__title h2 {
 	font-size: 60px;
 	color: #ca1515;
-	   font-family: "Roboto", sans-serif;
+font-family: "Bree Serif", serif;
 	line-height: 46px;
 	margin-bottom: 10px;
 }
@@ -1083,7 +1098,7 @@ ol {
 	right: -14px;
 	top: 0;
 	content: ">";
-	font-family: "FontAwesome";
+font-family: "Bree Serif", serif;
 }
 
 .breadcrumb__links a i {
@@ -1137,7 +1152,7 @@ ol {
 }
 
 .categories__text h1 {
-	   font-family: "Roboto", sans-serif;
+font-family: "Bree Serif", serif;
 	color: #111111;
 	margin-bottom: 5px;
 }
@@ -1462,7 +1477,7 @@ ol {
 .categories__accordion .card-heading>a.active[aria-expanded=false]:after {
 	content: "";
 	font-size: 14px;
-	font-family: "FontAwesome";
+font-family: "Bree Serif", serif;
 	color: #666666;
 	position: absolute;
 	right: 30px;
@@ -1472,7 +1487,7 @@ ol {
 .categories__accordion .card-heading.active a:after {
 	content: "";
 	font-size: 14px;
-	font-family: "FontAwesome";
+font-family: "Bree Serif", serif;
 	color: #666666;
 	position: absolute;
 	right: 30px;
@@ -1483,7 +1498,7 @@ ol {
 .categories__accordion .card-heading>a.active:after {
 	content: "";
 	font-size: 14px;
-	font-family: "FontAwesome";
+font-family: "Bree Serif", serif;
 	color: #666666;
 	position: absolute;
 	right: 30px;
@@ -3758,3 +3773,194 @@ ol {
 		font-size: 24px;
 	}
 }
+
+  
+  /* Main Navbar */
+  .navbar {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background-color: #f4f6ff;
+	padding: 10px 20px;
+	color: white;
+  }
+  
+  /* Logo on the left */
+  .navbar-brand {
+	display: flex;
+	align-items: center;
+  }
+  
+  .navbar-brand span {
+	font-size: 20px;
+	font-weight: bold;
+  }
+  
+  .fusion-plan {
+	margin-left: 10px;
+	font-size: 14px;
+  }
+  
+  /* Navigation items in the middle */
+  .navbar-nav {
+	display: flex;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	flex-grow: 1; /* Take up remaining space */
+	justify-content: center; /* Center the navigation items */
+	flex-direction: row;
+  }
+  
+  .navbar-nav li {
+	margin: 9px 15px; /* Adjust spacing between items */
+  }
+  
+  .navbar-nav li a {
+	color: rgb(0, 0, 0);
+	text-decoration: none;
+	font-size: 14px;
+  }
+  
+  /* Search bar and submit button on the right */
+  .search-bar {
+	display: flex;
+	align-items: center;
+	margin-left: 90px;
+  }
+  
+  .search-bar input {
+	padding: 8px;
+	border: 1px solid black;
+	border-radius: 2px;
+	width: 600px; /* Adjust width as needed */
+  }
+  
+  .search-bar button {
+	padding: 8px 15px;
+	background-color: white;
+	border: none;
+	border-radius: 2px;
+	margin-left: 5px;
+	cursor: pointer;
+	font-weight: bold;
+  }
+  
+  /* Category Navbar */
+  .sub-nav {
+	background-color: #F3C623;
+	padding: 10px 20px;
+  }
+  
+  
+  
+  .category-nav li {
+	margin: 0 10px;
+  }
+  
+  .category-nav li a {
+	color: #000000;
+	font-weight: 600;
+	text-decoration: none;
+	font-size: 14px;
+  }
+  
+  /* Dropdown styles */
+  .dropdown {
+	display: block;
+	position: absolute;
+	background-color: white;
+	box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+	list-style: none;
+	padding: 10px;
+	margin: 0;
+	z-index: 1;
+	top: 34px;
+  }
+  
+  .dropdown li {
+	margin: 5px 0;
+  }
+  
+  .dropdown li a {
+	color: #2874f0;
+  }
+  
+  .dropdown-toggle {
+	position: relative;
+	cursor: pointer;
+  }
+
+  /* login/signup */
+  .login-container {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.7);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 9999;
+  }
+  
+  .login-box {
+	background: white;
+	padding: 20px;
+	border-radius: 8px;
+	text-align: center;
+	width: 350px;
+	position: relative;
+  }
+  
+  .close-btn {
+	position: absolute;
+	top: 9px;
+    right: 14px;
+    border: none;
+    background: none;
+    font-size: 10px;
+	cursor: pointer;
+	color: red;
+  }
+  
+  input {
+	width: 100%;
+	padding: 10px;
+	margin: 10px 0;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+  }
+  
+.blur-background {
+	filter: blur(0px);
+	transition: filter 0.3s ease-in-out;
+  }
+  
+  
+  
+  
+ 
+
+  
+ 
+  
+  .error-message {
+	color: red;
+	font-size: 0.9em;
+  }
+  
+  .toggle-btn {
+	background: none;
+	border: none;
+	color: blue;
+	cursor: pointer;
+	text-decoration: underline;
+  }
+  
+ 
+  
+
+  
+  
