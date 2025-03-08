@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import '../../css/style.css';
+import "../../css/style.css";
+import { useAuth } from "./AuthContext"; // Import useAuth
 
-const LoginSignupPage = ({ onClose }) => {
+const LoginSignupPage = () => {
+  const [isVisible, setIsVisible] = useState(true); // Controls visibility of the login page
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
@@ -12,74 +14,119 @@ const LoginSignupPage = ({ onClose }) => {
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [forgotPasswordEmail, setForgotPasswordEmail] = useState("");
   const [forgotPasswordMessage, setForgotPasswordMessage] = useState("");
-  const [loading, setLoading] = useState(false); // Loading state
+  const [loading, setLoading] = useState(false);
+
+  const { login } = useAuth(); // Use the login function from AuthContext
+
+  // Create a ref for the modal
+  const modalRef = useRef();
+
+  // Close the modal on outside click
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        setIsVisible(false); // Close the modal
+      }
+    };
+
+    // Add event listener
+    document.addEventListener("mousedown", handleClickOutside);
+
+    // Cleanup the event listener on component unmount
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true); // Set loading state
-
+    setLoading(true);
+  
     if (isLogin) {
-      // Login API call
       try {
+        // Call the login API
         const response = await axios.post("http://localhost:5000/api/auth/login", {
           email,
           password,
         });
-        console.log(response.data);
-        setError(""); // Clear any previous errors
-        // Add any additional logic after successful login here
+        console.log("Login response:", response.data); // Debugging log
+  
+        // Verify that the response contains the user object
+        if (!response.data.user) {
+          throw new Error("User data not found in response");
+        }
+  
+        // Update the currentUser state in AuthContext
+        login(response.data.user); // Pass the user data to the login function
+        setIsVisible(false); // Close the modal after successful login
       } catch (error) {
         setError(error.response?.data?.message || "Login failed. Please check your credentials.");
       } finally {
-        setLoading(false); // Reset loading state
+        setLoading(false);
       }
     } else {
-      // Signup API call
+      // Signup logic
       if (password !== confirmPassword) {
         setError("Passwords do not match");
-        setLoading(false); // Reset loading state
+        setLoading(false);
         return;
       }
-
+  
       try {
+        // Call the signup API
         const response = await axios.post("http://localhost:5000/api/auth/signup", {
           username,
           email,
           password,
         });
-        console.log(response.data);
-        setError(""); // Clear any previous errors
-        // Add any additional logic after successful signup here
+        console.log("Signup response:", response.data); // Debugging log
+  
+        // Verify that the response contains the user object
+        if (!response.data.user) {
+          throw new Error("User data not found in response");
+        }
+  
+        // Update the currentUser state in AuthContext
+        login(response.data.user); // Pass the user data to the login function
+        setIsVisible(false); // Close the modal after successful signup
       } catch (error) {
         setError(error.response?.data?.message || "Signup failed. Please try again.");
       } finally {
-        setLoading(false); // Reset loading state
+        setLoading(false);
       }
     }
   };
 
   const handleForgotPasswordSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true); // Set loading state
+    setLoading(true);
 
     try {
+      // Call the forgot password API
       const response = await axios.post("http://localhost:5000/api/auth/forgot-password", {
         email: forgotPasswordEmail,
       });
+      console.log("Forgot password response:", response.data);
+
       setForgotPasswordMessage(response.data.message);
       setError(""); // Clear any previous errors
       setShowForgotPassword(false); // Redirect back to login page
     } catch (error) {
       setForgotPasswordMessage(error.response?.data?.message || "Something went wrong. Please try again.");
     } finally {
-      setLoading(false); // Reset loading state
+      setLoading(false);
     }
   };
 
+  // If the modal is not visible, return null (don't render anything)
+  if (!isVisible) {
+    return null;
+  }
+
   return (
     <div className="login-container">
-      <div className="login-box">
-        <button className="close-btn" onClick={onClose}>✖</button>
+      <div className="login-box" ref={modalRef}>
+        <button className="close-btn" onClick={() => setIsVisible(false)}>✖</button>
         <h2>{showForgotPassword ? "Forgot Password" : isLogin ? "Login" : "Signup"}</h2>
         {error && <p className="error-message">{error}</p>}
         {forgotPasswordMessage && <p className="success-message">{forgotPasswordMessage}</p>}

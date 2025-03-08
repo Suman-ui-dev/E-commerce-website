@@ -5,8 +5,10 @@ import { signup, login, forgotPassword } from "../controllers/authController.js"
 // Signup Route
 router.post("/signup", signup);
 
-// Other routes
+// Login Route
 router.post("/login", login);
+
+// Forgot Password Route
 router.post("/forgot-password", forgotPassword);
 
 export default router; // Use export default to allow default import

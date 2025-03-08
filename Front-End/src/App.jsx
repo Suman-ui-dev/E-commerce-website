@@ -17,6 +17,15 @@ import Shop from "./components/pages/Shop";
 import Contact from "./components/pages/Contact";
 import LoginSignupPage from "./components/pages/LoginSignupPage";
 import Preloader from "./components/pages/Preloader";
+import ProductListing from "./components/pages/ProductListing";
+import CategoryPage from "./components/pages/Category";
+import ProductDetails from "./components/pages/ProductDetalis";
+import Cart from "./components/pages/Cart";
+import { CartProvider } from "./components/pages/CartContext";
+import OrderSummary from "./components/pages/OrderSummary";
+import AdminDashboard from "./components/pages/AdminDashboard";
+import { AuthProvider } from "./components/pages/AuthContext"; // Import AuthProvider
+import ErrorBoundary from "./components/pages/ErrorBoundary"; // Import ErrorBoundary
 
 function App() {
   library.add(fas, fab);
@@ -26,39 +35,55 @@ function App() {
 
   useEffect(() => {
     // Step 1: Show preloader for 2 seconds
-    setTimeout(() => {
+    const preloaderTimeout = setTimeout(() => {
       setLoading(false);
     }, 2000);
 
     // Step 2: Show Login/Signup after 3 seconds (1 sec after website appears)
-    setTimeout(() => {
+    const loginTimeout = setTimeout(() => {
       setShowLogin(true);
     }, 3000);
+
+    // Cleanup timeouts to avoid memory leaks
+    return () => {
+      clearTimeout(preloaderTimeout);
+      clearTimeout(loginTimeout);
+    };
   }, []);
 
   return (
-    <>
+    <ErrorBoundary>
       {loading ? (
         <Preloader /> // Show preloader first
       ) : (
-        <div className={showLogin}>
-          <Router>
-            <Navbar />
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/pages/ProductCategory" element={<ProductCategory />} />
-              <Route path="/pages/ShopCart" element={<ShopCart />} />
-              <Route path="/pages/CheckOut" element={<CheckOut />} />
-              <Route path="/pages/Shop" element={<Shop />} />
-              <Route path="/pages/Contact" element={<Contact />} />
-            </Routes>
-            <Footer />
-          </Router>
-        </div>
+        <AuthProvider>
+          <CartProvider>
+            <Router>
+              <Navbar />
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/pages/LoginSignupPage" element={<LoginSignupPage />} />
+                <Route path="/pages/ProductCategory" element={<ProductCategory />} />
+                <Route path="/products" element={<ProductListing />} />
+                <Route path="/pages/ShopCart" element={<ShopCart />} />
+                <Route path="/pages/CheckOut" element={<CheckOut />} />
+                <Route path="/pages/Shop" element={<Shop />} />
+                <Route path="/pages/Contact" element={<Contact />} />
+                <Route path="/product/:productId" element={<ProductDetails />} />
+                <Route path="/category/:categoryName" element={<CategoryPage />} />
+                <Route path="/pages/Cart" element={<Cart />} />
+                <Route path="/pages/OrderSummary" element={<OrderSummary />} />
+                <Route path="/pages/AdminDashboard" element={<AdminDashboard />} />
+              </Routes>
+              <Footer />
+            </Router>
+          </CartProvider>
+        </AuthProvider>
       )}
 
-      {showLogin && <LoginSignupPage onClose={() => setShowLogin(false)} />}
-    </>
+      {/* Render LoginSignupPage conditionally */}
+    
+    </ErrorBoundary>
   );
 }
 
